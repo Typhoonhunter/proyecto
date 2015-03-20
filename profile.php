@@ -39,6 +39,9 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="index.html">Home</a></li>
       </ul>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">Log out</a></li>
+            </ul>
             </div>
             <!-- /.navbar-collapse -->
         </div>
@@ -64,7 +67,6 @@
                             <div class="section-heading">
                                 <h2>Welcome!</h2>
                                 <i class="fa fa-2x fa-angle-down"></i>
-
 				            </div>
 					   </div>
 				    </div>
@@ -78,6 +80,9 @@
                     echo "<br>¡Hola ".$_SESSION["Name"]."! Es una placer tenerte de vuelta.<br>";
                     echo "<br> Tu correo electrónico es ".$_SESSION["Email"]." y tu contraseña es ".$_SESSION["Password"].".";
                 ?>
+                <br>
+                <p>Now choose your option you can upload an object that you found or you can claim an object</p>
+                
             </div>		
 		</div>
 	</section>
