@@ -5,10 +5,11 @@
     
     $name   = $mail  = $password = "";
 
-    function set_session_variables($name, $mail, $password) {   
+    function set_session_variables($name, $mail, $password, $session) {   
         $_SESSION["Name"]     = $name;
         $_SESSION["Email"]    = $mail;
         $_SESSION["Password"] = $password;
+        $_SESSION["Session"]  = $session;
     }
     
     function set_session_status($status) {
@@ -33,10 +34,10 @@
         $conn = new mysqli($host, $root, $passwdroot, $dbname);
         // Check connection
         if ($conn->connect_error) {
-            set_session_error("Error:".$conn->connect_error);
+            set_session_error("<br><br>Error:".$conn->connect_error."<br>");
             die("Connection failed: ".$conn->connect_error);
         } else {
-            set_session_error("Éxito: Conexión a las base de datos establecida.");
+            // set_session_error("Éxito: Conexión a las base de datos establecida.");
         }
         return $conn;
     }
@@ -97,7 +98,7 @@
         $conn  = connect();
         $query = "INSERT INTO proyecto.users (nombre, mail, password) VALUES ('".$name."', '".$mail."', '".$password."')";
         if ($conn->query($query) === TRUE) {
-            set_session_variables($name,$mail,$password);
+            set_session_variables($name,$mail,$password, "established");
             set_session_error("<br><br>Éxito: Usted ha quedado registado, bienvenido ".$name.".");
             header('Location: registro.php');
         } else {
@@ -113,7 +114,7 @@
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
                 if ($row["mail"] == $mail && $row["password"] == $password) {
-                    set_session_variables($row["nombre"],$mail,$password);
+                    set_session_variables($row["nombre"],$mail,$password,"established");
                     set_session_error("
                         <br>¡Hola ".$_SESSION["Name"]."! Es una placer tenerte de vuelta.<br> 
                         <br> Tu correo electrónico es ".$_SESSION["Email"]." y tu contraseña es 
@@ -123,13 +124,13 @@
                     return 1;
                 }
             }
-            set_session_variables("","","");
+            set_session_variables("","","","");
             set_session_error("<br><br> Error: La contraseña proporcionada es incorrecta.");
             mysqli_free_result($result);
             disconnect($conn);
             return 0;
         } else {
-            set_session_variables("","","");
+            set_session_variables("","","","");
             set_session_error("<br><br> Error: Base de datos vacía.");
             mysqli_free_result($result);
             disconnect($conn);
@@ -180,7 +181,7 @@
         header('Location: registro.php');
     }
 
-    // Login validation form.
+    // Log in validation form.
     if ((isset($_POST['add'])) && ($_POST['add'] == 'login')) {
        
         set_session_status("success");
@@ -212,6 +213,11 @@
             header('Location: login.php');
         }
         
+    }
+
+    // Log out validation form.
+    if ((isset($_POST['add'])) && ($_POST['add'] == 'logOut')) {
+        echo "hello world";   
     }
 
 ?>

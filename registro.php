@@ -74,14 +74,16 @@
                     <p>Insert your personal data to create a new profile</p>
                     <br>
                     <br>
-                    <form class="block-form" method="post"          action="funciones.php">
+                    <form class="block-form" method="post" action="funciones.php">
                         <input type="text"      name="name"             placeholder="Nombre"        id="name" required/>
                         <input type="text"      name="mail"             placeholder="E-Mail"        id="mail" required/>
                         <input type="password"  name="password"         placeholder="Password"      id="password" required/>
                         <input type="password"  name="checkPassword"    placeholder="CheckPasword"  id="CheckPassword" required/>
                         <?php 
-                            echo $_SESSION["Error"]; 
-                            $_SESSION["Error"] = "";
+                            if (isset($_SESSION["Error"])) {
+                                echo $_SESSION["Error"]; 
+                                $_SESSION["Error"] = "";
+                            }
                         ?>
                         <br>
                         <br>

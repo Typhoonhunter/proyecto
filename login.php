@@ -84,8 +84,10 @@
                         <input type="password" name="password" placeholder="Password" id="password"   required/>
                         <br>
                         <?php 
-                            echo $_SESSION["Error"]; 
-                            $_SESSION["Error"] = "";
+                            if (isset($_SESSION["Error"])) {
+                                echo $_SESSION["Error"]; 
+                                $_SESSION["Error"] = "";
+                            }
                         ?>
                         <br>
                         <br>

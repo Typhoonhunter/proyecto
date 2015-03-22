@@ -2,25 +2,35 @@
 
 <?php
 	include_once("funciones.php");
+
+    if (!isset($_SESSION["Session"])) {
+        header("HTTP/1.0 404 Not Found");
+        echo "<br>";
+        echo "<h1>Error 404: Not Found</h1>";
+        echo "<br>";
+        echo "<i>The requested URL was not found on this server, please go back and start a session. </i> <br>";
+        die();
+    }
+
 ?>
 
 <html lang="en">
 
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
+        <meta   charset="utf-8">
+        <meta   name="viewport"         content="width=device-width, initial-scale=1.0">
+        <meta   name="description"      content="">
+        <meta   name="author"           content="">
         <title>Find it</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-
+        <link   href="css/bootstrap.min.css"                    rel="stylesheet" type="text/css">
         <!-- Fonts -->
-        <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <link href="css/animate.css" rel="stylesheet" />
+        <link   href="font-awesome/css/font-awesome.min.css"    rel="stylesheet" type="text/css">
+        <link   href="css/animate.css"                          rel="stylesheet" />
         <!-- Squad theme CSS -->
-        <link href="css/style.css" rel="stylesheet">
-        <link href="color/default.css" rel="stylesheet">
+        <link   href="css/style.css"                            rel="stylesheet">
+        <link   href="color/default.css"                        rel="stylesheet">
+        <!--<script type = "text/javascript"  src = "js/session.js"></script>-->
+
 
     </head>
 
@@ -38,14 +48,18 @@
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                    <!--
                     <ul class="nav navbar-nav">
                         <li class="active">
                             <a href="index.html">Home</a>
                         </li>
                     </ul>
+                    -->
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a href="index.html">Log out</a>
+                            <a href="session/logout.php">
+                                Log out
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -73,7 +87,6 @@
                                 <div class="section-heading">
                                     <h2>Welcome!</h2>
                                     <i class="fa fa-2x fa-angle-down"></i>
-
                                 </div>
                            </div>
                         </div>
