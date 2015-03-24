@@ -220,4 +220,69 @@
         echo "hello world";   
     }
 
+    function add_image($image) {
+        $target_dir = "img/uploads/";
+        $target_file = $target_dir . basename($_FILES["$image"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+      
+        if(isset($_POST["submit"])) {
+            $check = getimagesize($_FILES["$image"]["tmp_name"]);
+            if($check !== false) {
+                $uploadOk = 1;
+            } else {
+                set_session_error("El archivo no es de tipo imagen.");
+                $uploadOk = 0;
+            }
+        }
+      
+        if (file_exists($target_file)) {
+            set_session_error("El archivo ya existe.");
+            $uploadOk = 0;
+        }
+      
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            set_session_error("El archivo solo puede ser de tipo jpg, png o jpeg.");
+            $uploadOk = 0;
+        }
+      
+        if ($uploadOk == 0) {
+            set_session_error("El archivo no se ha podido cargar.");
+        } else {
+            $conn = connect();
+            $query = "INSERT INTO proyecto.imagen (nombre, path) VALUES ('".basename($_FILES["$image"]["name"])."', '".$target_file."')";
+            if (move_uploaded_file($_FILES["$image"]["tmp_name"], $target_file) && $conn->query($query) === TRUE) {
+                set_session_error("El archivo ". basename( $_FILES["$image"]["name"]). " ha sido cargado exitosamente.");
+            } else {
+                set_session_error("<br><br> Error: Hubo un problema al cargar el archivo.");
+            }
+            disconnect($conn);
+        }
+    }
+
+    function search_image($image) {
+        $conn   = connect();
+        $query  = "SELECT nombre, path FROM imagen";
+        $result = $conn->query($query);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                if ($row["nombre"] == $image) {
+                    $src = $row["path"];
+                    mysqli_free_result($result);
+                    disconnect($conn);
+                    return $src;
+                }
+            }
+            set_session_error("<br><br> Error: La imagen que buscas no existe.");
+            mysqli_free_result($result);
+            disconnect($conn);
+            return null;
+        } else {
+            set_session_error("<br><br> Error: Base de datos vacía.");
+            mysqli_free_result($result);
+            disconnect($conn);
+            return null;
+        }
+
+    }
 ?>
